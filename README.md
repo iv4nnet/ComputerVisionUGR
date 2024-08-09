@@ -1,6 +1,6 @@
 # Coputer-Vision-UGR
 
-Assignment 1
+## Assignment 1
 
 ### Exercise 1: Mask Discretization and Gaussian Filtering
 
@@ -19,35 +19,13 @@ In this exercise, we discretize convolution masks and apply them to images using
 
 ##### Gaussian Function
 
-The Gaussian function is defined as:
-
-\[
-\text{GaussFunc}(x, \sigma) = c \cdot e^{-\frac{x^2}{2\sigma^2}}
-\]
-
-- `c`: A constant (which we can ignore).
-- `x`: The point at which we evaluate the function.
-- `sigma`: The standard deviation of the mean, or "scale" of the Gaussian kernel, controls the amount of smoothing.
-
 Gaussian functions remove high-frequency components from the image, acting as a low-pass filter and smoothing the image.
 
 ##### First Derivative of Gaussian
 
-The first derivative of the Gaussian function with respect to x:
-
-\[
-\text{GaussDeriv1Func}(x, \sigma) = \frac{d}{dx} \left(c \cdot e^{-\frac{x^2}{2\sigma^2}}\right) = -\frac{x}{\sigma^2} \cdot \text{GaussFunc}(x, \sigma)
-\]
-
 This derivative helps in edge detection by smoothing in one direction and differentiating in the other, leveraging the separability of the kernel function.
 
 ##### Second Derivative of Gaussian
-
-The second derivative of the Gaussian function:
-
-\[
-\text{GaussDeriv2Func}(x, \sigma) = \frac{d^2}{dx^2} \left(c \cdot e^{-\frac{x^2}{2\sigma^2}}\right) = \frac{x^2 - \sigma^2}{\sigma^4} \cdot \text{GaussFunc}(x, \sigma)
-\]
 
 This derivative allows for more precise edge localization.
 
@@ -93,18 +71,12 @@ In this section, the OpenCV function `sepFilter2D()` must be used with the masks
 ### **The Separability**
 1. **Concept of Separability:**
    - As I mentioned in the clause 1.A, Gaussian has a property of separability. It means that 2D Gaussian can be expressed as the product of two functions, one a function of x and other a function of y. Here, the two functions are the 1D Gaussian.
-   - Mathematically, 2D Gaussian `G(x,y)` can be represented as:
-   $$\text{G}(x,y) = G_x(x) \cdot G_y(y)$$
 
 2. **Gaussian Derivatives:**
    - The first derivative of a 2D Gaussian is also separable. This allows us to calculate derivatives by applying 1D kernels.
-   - Mathematically, it is represented as:
-   $$ \frac{dG(x,y)}{dx} = G'_x(x) \cdot G_y(y)$$
     - `G'x`: A horizontal 1D Gaussian derivative kernel
     - `Gy`: A vertical 1D Gaussian kernel.
     - We smooth in one direction, differentiate in the other.
-  - The second derivative of Gaussian is separable as well:
-   $$ \frac{d^2G}{dx^2} + \frac{d^2G}{dy^2} = G''_h(x) \cdot G_v(y) + G_h(x) \cdot G''_v(y)$$
     - `G''h(x)*Gv(y)`: Convolution in one direction with the 2nd derivative of Gaussian and then, in the other direction, convolution with Gaussian.
     - `Gh(x)*G''v(y)`: Convolution in one direction with Gaussian and then, in the other direction, convolution with the 2nd derivative of Gaussian.
 
@@ -166,9 +138,7 @@ The script employs separable convolution operations to efficiently compute the d
 
 ### **Laplacian of Gaussian (LoG)**
 
-LoG is useful for edge detection and feature extraction. It is calculated as the sum of two-dimensional convolutions of the image with a Gaussian kernel and the Laplacian operator. Mathematically, this operation can be expressed as:
-
-   $$ \frac{d^2(I*G)}{dx^2} + \frac{d^2(I*G)}{dy^2} = I * (\frac{d^2G}{dx^2} + \frac{d^2G}{dy^2}) = I * \frac{d^2G}{dx^2} + I * \frac{d^2G}{dy^2}$$
+LoG is useful for edge detection and feature extraction. It is calculated as the sum of two-dimensional convolutions of the image with a Gaussian kernel and the Laplacian operator. 
 
 It means that the operation can be broken down into a series of one-dimensional convolutions, making the computation more efficient compared to a single two-dimensional convolution. The Gaussian kernel smooths the image, while the Laplacian highlights intensity variations.
 
@@ -183,7 +153,7 @@ Here, the LoG is calculated by performing two separate convolutions:
 The LoG is computed by applying separable convolutions with Gaussian smoothing followed by the second derivative computation in the X direction.
 The resulting image highlights edges and features no matter of their orientation. As the Gaussian Mask is already scaled by sigma and sigma^2, there is no need to scale results this time.
 
-# **Exercise 2**:  Gaussian and Laplacian pyramids
+### **Exercise 2**:  Gaussian and Laplacian pyramids
 
 #### Part A
 
@@ -208,8 +178,7 @@ The Gaussian pyramid is a multi-scale representation of an image, where each lev
 
   - **Gaussian Blur:**
       - First, I apply the Gaussian blur to the previous level using a 2D convolution operation. The sizeMask default size is 7x7.
-      - The sigma for Gaussian mask is calculated based on the mask size T with the formula, mentioned before:
-$$\sigma = \frac{T - 1}{6}$$
+      - The sigma for Gaussian mask is calculated based on the mask size T with the formula, mentioned before: sigma = (T - 1)/6
   - **Subsampling:**
       - Subsample the blurred image by downsampling it by a factor of 2, creating a lower-resolution version. Here, I tried 2 different approaches, one with cv2.resize and another with straightforward downsampling and experimentally chose second one.
       - Append the subsampled image to the Gaussian pyramid.
@@ -267,9 +236,9 @@ To reconstruct an image from its Laplacian pyramid, we need to expand each level
    - After the reconstruction process, the function calculates the reconstruction error. It is computed as the Euclidean norm of the differences between the intensity levels of the original image `im` and the final reconstructed image `reconstructed_image`.
 
  
-# **Exercise 3: Hybrid Images**
+### **Exercise 3: Hybrid Images**
 
-This exercise is inspired on the following paper: $\textit{Oliva, A., Torralba, A., & Schyns, P. G. (2006). Hybrid images. ACM Transactions on Graphics (TOG), 25(3), 527-532}$. (https://stanford.edu/class/ee367/reading/OlivaTorralb_Hybrid_Siggraph06.pdf).  
+This exercise is inspired on the following paper: Oliva, A., Torralba, A., & Schyns, P. G. (2006). Hybrid images. ACM Transactions on Graphics (TOG), 25(3), 527-532. (https://stanford.edu/class/ee367/reading/OlivaTorralb_Hybrid_Siggraph06.pdf).  
 
 **The Task:** The goal is to learn how the distance affects the human visual system when it extracts information about an object. To do this, we build a hybrid image from two images of different objects. By properly mixing part of the high frequencies of one image with part of the low frequencies of another image, we obtain a hybrid image whose perception differs with distance. The sigma used to filter both images (both high and low frequencies) is the key aspect to select the high and low frequency range of each image. The higher the sigma value, the greater the removal of high frequencies from the image. It is recommended to choose this value separately for each of the images and, in fact, it is possible (and even desirable) to have different values for different pairs of images. Remember to use the Gaussian pyramid to show the effect obtained.
 
@@ -301,7 +270,7 @@ image. To get high frequencies, we can calculate the difference between the orig
 
 4. **Display Hybrid Images:** After applying calculated function to loaded images with setted sigma values, to check if the effect is achieved, I built the Gaussian pyramid with the hybrid images. In this case there is no need to move away from the computer to see the effect, which means that the task was solved successfully.
 
-# **Exercise 4: Pyramid Blending**
+### **Exercise 4: Pyramid Blending**
 
 **Tha Task:** In this exercise you must create the merged image (horizontal) of the apple (`apple.jpg`) and the orange (`orange.jpg`) using the $\textit{Pyramid Blending}$ technique. It is recommended to use the OpenCV functions `pyrDown` and `pyrUp` (and explain its working/functioning). It is also essential to explain in detail the process followed when creating the new image (mixture of both), and the blending effect in the resulting image should be appropriate (like in the example displayed below).  
 
