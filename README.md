@@ -1,4 +1,4 @@
-# Coputer-Vision-UGR
+# Computer-Vision-UGR
 
 ## Assignment 1
 
