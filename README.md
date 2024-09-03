@@ -203,7 +203,7 @@ The final fine-tuned version of `BaseNet`, named `Improved BaseNet #7`, achieved
 - **Model Complexity vs. Overfitting**:
   - Regularization techniques like dropout are essential to avoid overfitting.
 
-## Assignment 3 - Feature Extraction and Image Stitching
+## Assignment 3: Feature Extraction and Image Stitching
 
 In this assignment, we develop a base to gain hands-on experience with key techniques in computer vision. We will explore interest point detection, feature matching, and image stitching. The assignment is divided into four exercises:
 
