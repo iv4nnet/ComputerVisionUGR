@@ -1,6 +1,6 @@
 # Computer Vision Homework Assignments
 
-Welcome to my repository for the Computer Vision course assignments from UGR. This repository contains the implementations and solutions for various exercises focusing on image processing techniques, Machine Leaning, and Deep Learning using Python and OpenCV. Below is a brief overview of the assignments included in this repository.
+Welcome to my repository for the Computer Vision course assignments from UGR. This repository contains the implementations and solutions for various exercises focusing on image processing, machine learning, and deep learning techniques using Python, OpenCV, and TensorFlow. Below is a brief overview of the assignments included in this repository.
 
 ## Table of Contents
 
