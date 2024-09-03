@@ -9,17 +9,23 @@ Welcome to my repository for the Computer Vision course assignments from UGR. Th
   - [Exercise 2: Gaussian and Laplacian Pyramids](#exercise-2-gaussian-and-laplacian-pyramids)
   - [Exercise 3: Hybrid Images](#exercise-3-hybrid-images)
   - [Exercise 4: Pyramid Blending](#exercise-4-pyramid-blending)
-- [Assignment 2](#assignment-2)
-  - [Exercise 1: BaseNet in CIFAR100](#exercise-1-basenet-in-cifar100-3-points)
+- [Assignment 2](#assignment-2-deep-learning-for-computer-vision)
+  - [Exercise 1: BaseNet in CIFAR100](#exercise-1-basenet-in-cifar100)
     - [Model Description](#model-description)
     - [Data Loading and Preprocessing](#data-loading-and-preprocessing)
     - [BaseNet Architecture](#basenet-architecture)
     - [Model Training and Evaluation](#model-training-and-evaluation)
     - [Parameter Count](#parameter-count)
-  - [Exercise 2: Improvement of the BaseNet Model](#exercise-2-improvement-of-the-basenet-model-35-points)
+  - [Exercise 2: Improvement of the BaseNet Model](#exercise-2-improvement-of-the-basenet-model)
     - [Incremental Improvements](#incremental-improvements)
     - [Improved BaseNet #7](#improved-basenet-7)
     - [Conclusions](#conclusions)
+- [Assignment 3](#assignment-3-feature-extraction-and-image-stitching)
+  - [Exercise 1: Multi-scale Blob Detection using the Laplacian of Gaussian](#exercise-1-multi-scale-blob-detection-using-the-laplacian-of-gaussian)
+  - [Exercise 2: Harris Corner Detector](#exercise-2-harris-corner-detector)
+  - [Exercise 3: Matching Keypoints between Images using SIFT and Haralick Descriptors](#exercise-3-matching-keypoints-between-images-using-sift-and-haralick-descriptors)
+  - [Exercise 4: Image Stitching using Homographies](#exercise-4-image-stitching-using-homographies)
+
 
 ## Assignment 1
 
@@ -87,7 +93,7 @@ This exercise focuses on creating a blended image by merging two images (e.g., a
 
 The goal of this assignment is to gain hands-on experience in designing and training deep neural networks, particularly CNNs, using the fastai library. Starting from a baseline model, `BaseNet`, this assignment explores how to modify, enhance, and optimize a neural network for image classification tasks using part of the CIFAR-100 dataset.
 
-### Exercise 1: BaseNet in CIFAR100 (3 points)
+### Exercise 1: BaseNet in CIFAR100
 
 #### Model Description
 
@@ -152,7 +158,7 @@ The `BaseNet` architecture is defined as follows:
 - Total number of parameters in the `BaseNet` model: _[Calculation needed]_
 - Breakdown of the parameter count for each layer and component.
 
-### Exercise 2: Improvement of the BaseNet Model (3.5 points)
+### Exercise 2: Improvement of the BaseNet Model
 
 #### Incremental Improvements
 
@@ -196,4 +202,77 @@ The final fine-tuned version of `BaseNet`, named `Improved BaseNet #7`, achieved
   - Aggressive augmentation can improve robustness but may introduce noise.
 - **Model Complexity vs. Overfitting**:
   - Regularization techniques like dropout are essential to avoid overfitting.
+
+## Assignment 3 - Feature Extraction and Image Stitching
+
+In this assignment, we develop a base to gain hands-on experience with key techniques in computer vision. We will explore interest point detection, feature matching, and image stitching. The assignment is divided into four exercises:
+
+### Exercise 1: Multi-scale Blob Detection using the Laplacian of Gaussian
+
+Implement a multiscale blob detector in Python that uses Laplacian of Gaussian (LoG) filters to identify interest points or regions.
+
+#### Steps:
+1. **Sigma Values**:
+    - Use 11 sigma values starting from a small initial sigma, increasing by a factor of 1.5 for each subsequent scale.
+2. **Scale-normalized LoG**:
+    - Apply the scale-normalized LoG filter to the image.
+3. **Maximum Detection**:
+    - Find maxima of the squared Laplacian response in scale-space.
+    - Use a 3D neighborhood for maximum detection (26 neighbors).
+    - Apply `maximum_filter` from `scipy.ndimage` and use a threshold to limit the number of blobs detected to around 1000 points.
+4. **Visualization**:
+    - Draw detected blobs as circles centered on the identified coordinates with radius proportional to the scale at which the corresponding blob was detected.
+
+## Exercise 2: Harris Corner Detector
+
+Write Python code to implement the detection of the strongest 100-150 Harris points in an image.
+
+### Steps:
+1. **Derivative and Integration Scales**:
+    - Set the derivative (σ) and integration (σ) scales to 1.5 and 2.25, respectively.
+2. **Compute Image Derivatives**:
+    - Calculate the image derivatives.
+3. **Second Moment Matrix**:
+    - Compute the three terms of the second moment matrix (M) at each pixel by applying convolution with a Gaussian mask.
+4. **Harris Response**:
+    - Compute the Harris value at each pixel of the image.
+5. **Non-Maxima Suppression**:
+    - Use `corner_peaks()` from `skimage.feature` with an appropriate `min_distance` and threshold to keep 100-150 keypoints.
+6. **Orientation Computation**:
+    - Compute the main orientation for each point by smoothing derivative images with a larger sigma.
+7. **KeyPoint Creation**:
+    - Create a list of `cv2.KeyPoint` objects using the selected points.
+8. **Visualization**:
+    - Draw keypoints on the image using `drawKeyPoints()` with appropriate flags.
+
+
+## Exercise 3: Matching Keypoints between Images using SIFT and Haralick Descriptors
+
+Develop a solution to match keypoints between two images using the SIFT algorithm.
+
+### Steps:
+1. **KeyPoint Detection**:
+    - Use the SIFT algorithm to detect keypoints and compute descriptors for both images.
+2. **Brute-Force Matching**:
+    - Use the `cv2.BFMatcher` with the Brute-Force cross-check criterion.
+3. **Lowe's Ratio Test**:
+    - Apply Lowe's ratio distance criterion using `knnMatch`.
+4. **Visualization**:
+    - Draw the top 100 matches using `cv2.drawMatches()`.
+
+## Exercise 4: Image Stitching using Homographies (3 points)
+
+Create a mosaic/panorama by stitching multiple images together using homographies.
+
+### Steps:
+1. **Homography Calculation**:
+    - Compute homographies between pairs of images using the matched keypoints and `cv2.findHomography()`.
+2. **RANSAC**:
+    - Use RANSAC to perform robust estimation while computing homographies.
+3. **Image Warping**:
+    - Warp images using the computed homographies.
+4. **Stitching**:
+    - Blend the images to create a seamless mosaic or panorama.
+5. **Visualization**:
+    - Display the final stitched image.
 
